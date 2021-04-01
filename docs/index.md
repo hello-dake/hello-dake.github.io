@@ -9,7 +9,7 @@
 
 - JAVA基础
   
-  1.[HashMap详解](https://github.com/hello-dake/hello-dake.github.io/blob/master/docs/HashMap%E8%AF%A6%E8%A7%A3.md)
+  1.[HashMap详解](https://github.com/hello-dake/hello-dake.github.io/blob/master/docs/2021-04-01-HashMap.markdown)
 
 
 - JVM虚拟机
