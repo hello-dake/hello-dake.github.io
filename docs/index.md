@@ -1,22 +1,20 @@
-## Welcome to GitHub Pages
+## Welcome to HELLODAKE's BLOG
 
-You can use the [editor on GitHub](https://github.com/hello-dake/hello-dake.github.io/edit/master/docs/index.md) to maintain and preview the content for your website in Markdown files.
+工作快两年了，最近想好好整理一下基础知识，所以写了这个博客，方便自己时常复习，温故而知新。
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+有不对的地方欢迎指正。
 
-### HELLODAKE'S BLOG
+### ABSTRACT
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
 ```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
+- JAVA基础
+  1. HashMap详解
+- JVM虚拟机
+- 算法
+  1. 排序算法
+- Redis
+- Mysql
 
 1. Numbered
 2. List
@@ -28,10 +26,7 @@ Syntax highlighted code block
 
 For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/hello-dake/hello-dake.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
 
 ### Support or Contact
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+Having trouble with my blog? You can contact me by email, the email is hellodake117@163.com.
