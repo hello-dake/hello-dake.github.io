@@ -8,14 +8,19 @@
 
 
 - JAVA基础
-  1. [HashMap详解](https://github.com/hello-dake/hello-dake.github.io/blob/master/docs/index.md)
+  
+  1.[HashMap详解](https://github.com/hello-dake/hello-dake.github.io/blob/master/docs/HashMap%E8%AF%A6%E8%A7%A3.md)
 
 
 - JVM虚拟机
 
 
 - 算法
-  1. 排序算法
+  
+  1.排序算法 
+  
+  冒泡排序
+  
 
 
 - Redis
