@@ -7,13 +7,20 @@
 ### ABSTRACT
 
 
-```markdown
 - JAVA基础
-  1. HashMap详解
+  1. [HashMap详解](https://github.com/hello-dake/hello-dake.github.io/blob/master/docs/index.md)
+
+
 - JVM虚拟机
+
+
 - 算法
   1. 排序算法
+
+
 - Redis
+
+
 - Mysql
 
 1. Numbered
