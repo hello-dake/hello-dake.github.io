@@ -1,44 +1,28 @@
-## Welcome to HELLODAKE's BLOG
+---
+layout: default
+---
 
-工作快两年了，最近想好好整理一下基础知识，所以写了这个博客，方便自己时常复习，温故而知新。
+<body>
+  <div class="index-wrapper">
+    <div class="aside">
+      <div class="info-card">
+        <h1>HELLODAKE</h1>
+        <a href="http://weibo.com/beiyuu/" target="_blank"><img src="http://www.weibo.com/favicon.ico" alt="" width="25"/></a>
+        <a href="http://www.douban.com/people/beiyuu/" target="_blank"><img src="http://www.douban.com/favicon.ico" alt="" width="22"/></a>
+        <a href="http://instagram.com/beiyuu/" target="_blank"><img src="http://d36xtkk24g8jdx.cloudfront.net/bluebar/00c6602/images/ico/favicon.ico" alt="" width="22"/></a>
+      </div>
+      <div id="particles-js"></div>
+    </div>
 
-有不对的地方欢迎指正。
-
-### ABSTRACT
-
-
-- JAVA基础
-  
-  1.[HashMap详解](https://hello-dake.github.io/2021/04/01/HashMap详解.html)
-
-
-- JVM虚拟机
-
-
-- 算法
-  
-  1.排序算法 
-  
-  冒泡排序
-  
-
-
-- Redis
-
-
-- Mysql
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-
-### Support or Contact
-
-Having trouble with my blog? You can contact me by email, the email is hellodake117@163.com.
+    <div class="index-content">
+      <ul class="artical-list">
+        {% for post in site.categories.blog %}
+        <li>
+          <a href="{{ post.url }}" class="title">{{ post.title }}</a>
+          <div class="title-desc">{{ post.description }}</div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</body>
