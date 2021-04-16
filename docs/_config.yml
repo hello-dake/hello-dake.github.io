@@ -1,2 +1,4 @@
 theme: jekyll-theme-slate
+permalink: /:title
+baseurl: /blog
 name: HELLODAKE BLOG
