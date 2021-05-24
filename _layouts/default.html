@@ -1,33 +1,25 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>{{ page.title }}</title>
-    
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
-  
-  </head>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+
+  {%- include head.html -%}
 
   <body>
-    <nav>
-<ul>
-<li><a href="/">Home</a></li>
-<li><a href="/about">About</a></li>
-<li><a href="/cv">CV</a></li>
-<li><a href="/blog">Blog</a></li>
-</ul>
-    </nav>
-<div class="container">
 
-  {{ content }}
+    {%- include views/header.html -%}
 
-</div>
-  
-  <footer>
-   <ul>
-   <li><a href="mailto:hellodake117@163.com">email:hellodake117@163.com</a></li>
-   <li><a href="https://github.com/hello-dake">github.com/hello-dake</a></li>
-   </ul>
-  </footer>
+    {%- include views/banner.html -%}
+
+    {%- include extensions/hashlocate.html -%}
+
+    {%- include extensions/theme-toggle.html -%}
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        {{ content }}
+      </div>
+    </main>
+
+    {%- include views/footer.html -%}
+
   </body>
-
 </html>
