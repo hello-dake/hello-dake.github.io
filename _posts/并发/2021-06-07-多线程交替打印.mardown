@@ -179,7 +179,7 @@ public class PrintABCUsingSemaphore {
 ```
 
 ### LockSupport实现
-LockSuport的park()方法表示阻塞当前线程，unpark(thread)表示唤醒线程
+LockSuport的park()方法表示阻塞当前线程，unpark(thread)表示唤醒线程。
 
 ```java
 public class PrintABCUsingLockSupport {
