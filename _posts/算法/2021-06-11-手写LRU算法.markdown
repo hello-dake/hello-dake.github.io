@@ -1,0 +1,10 @@
+---
+layout: post
+title: "手写LRU算法"
+categories: 算法
+date: 2021-06-11
+---
+
+LRU算法，Least Recently Used，是操作系统缓存淘汰机制的一种策略，认为最近使用的不应该被淘汰，最久未使用的应该被淘汰。
+
+需要一个

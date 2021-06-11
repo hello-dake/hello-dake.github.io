@@ -1,0 +1,225 @@
+---
+layout: post
+title: "多线程交替打印"
+categories: 并发
+date: 2021-06-07
+---
+
+多线程同时打印其实考察的是线程间的通信问题
+
+题目：三个线程分别打印 A，B，C，要求这三个线程一起运行，打印 n 次，输出形如“ABCABCABC....”的字符串
+
+### wait notify实现
+
+wait notify需要和synchronized配合使用(使用Object的wait notify方法)
+
+```java
+public class PrintABCUsingWaitNotify {
+    // 交替打印ABC 取模 0, 1, 2，一共打印9次， ABCABCABC
+    private static int times;
+    private static Object lock = new Object();
+    private int state;
+
+    public PrintABCUsingWaitNotify(int times) {
+        this.times = times;
+    }
+
+    public static void main(String[] args) {
+        PrintABCUsingWaitNotify printABCUsingWaitNotify = new PrintABCUsingWaitNotify(10);
+        new Thread(() ->
+                printABCUsingWaitNotify.print("A", 0), "A")
+                .start();
+        new Thread(() ->
+                printABCUsingWaitNotify.print("B", 1), "B")
+                .start();
+        new Thread(() ->
+                printABCUsingWaitNotify.print("C", 2), "C")
+                .start();
+    }
+
+    public void print(String letter, int target) {
+        for (int i = 0; i < times; i ++) {
+            synchronized (lock) {
+                while (state % 3 != target) {
+                    try {
+                        lock.wait();
+                    } catch (Exception e) {
+                    }
+                }
+                state ++;
+                System.out.print(letter);
+                lock.notifyAll();
+            }
+
+        }
+
+    }
+}
+```
+
+### Lock实现
+
+```java
+public class PrintABCUsingLock {
+    private int times;
+    private int state;
+    private static ReentrantLock lock = new ReentrantLock();
+
+    public PrintABCUsingLock(int times) {
+        this.times = times;
+    }
+
+    public static void main(String[] args) {
+        PrintABCUsingLock printABCUsingLock = new PrintABCUsingLock(3);
+        new Thread(() ->
+                printABCUsingLock.print("A", 0), "A")
+                .start();
+        new Thread(() ->
+                printABCUsingLock.print("B", 1), "B")
+                .start();
+        new Thread(() ->
+                printABCUsingLock.print("C", 2), "C")
+                .start();
+    }
+
+    public void print(String letter, int target) {
+        for (int i = 0; i < times;) {
+            lock.lock();
+            while (state % 3 == target) {
+                System.out.print(letter);
+                state ++;
+                i ++;
+            }
+            lock.unlock();
+        }
+    }
+}
+```
+
+### Lock Condition实现精准唤醒
+
+lock可以new多个condition(对象监视器)，实现精准唤醒，await()方法和signal()方法分别表示阻塞当前线程和唤醒当前线程
+```java
+public class PrintABCUsingLockCondition {
+
+    private int times;
+    private int state;
+    private static ReentrantLock lock = new ReentrantLock();
+    private static Condition condition1 = lock.newCondition();
+    private static Condition condition2 = lock.newCondition();
+    private static Condition condition3 = lock.newCondition();
+
+    public PrintABCUsingLockCondition(int times) {
+        this.times = times;
+    }
+
+    public static void main(String[] args) {
+        PrintABCUsingLockCondition printABCUsingLockCondition = new PrintABCUsingLockCondition(3);
+        new Thread(() -> printABCUsingLockCondition.printABC("A", 0, condition1, condition2)).start();
+        new Thread(() -> printABCUsingLockCondition.printABC("B", 1, condition2, condition3)).start();
+        new Thread(() -> printABCUsingLockCondition.printABC("C", 2, condition3, condition1)).start();
+    }
+
+    public void printABC(String letter, int target, Condition cur, Condition next) {
+        lock.lock();
+        for (int i = 0; i < times; i ++) {
+            while (state % 3 != target) {
+                try {
+                    cur.await();
+                } catch (Exception e) {
+
+                }
+            }
+            System.out.println(letter);
+            state ++;
+            next.signal();
+        }
+        lock.unlock();
+    }
+
+}
+```
+
+### Semaphore实现
+semaphere信号量，new的时候可以指定permit的数量，acquire()方法表示permit-1,获取锁，release()表示permit+1，释放锁
+```java
+public class PrintABCUsingSemaphore {
+
+    private int state;
+    private int times;
+    private static Semaphore semaphore1 = new Semaphore(1);
+    private static Semaphore semaphore2 = new Semaphore(0);
+    private static Semaphore semaphore3 = new Semaphore(0);
+
+    public PrintABCUsingSemaphore(int times) {
+        this.times = times;
+    }
+
+    public static void main(String[] args) {
+        PrintABCUsingSemaphore printABCUsingSemphere = new PrintABCUsingSemaphore(3);
+        new Thread(() -> printABCUsingSemphere.printABC("A", 0, semaphore1, semaphore2)).start();
+        new Thread(() -> printABCUsingSemphere.printABC("B", 1, semaphore2, semaphore3)).start();
+        new Thread(() -> printABCUsingSemphere.printABC("C", 2, semaphore3, semaphore1)).start();
+    }
+
+    public void printABC(String letter, int target, Semaphore s1, Semaphore s2) {
+        for (int i = 0; i < times; i ++) {
+            try {
+                s1.acquire();
+                System.out.println(letter);
+                s2.release();
+            } catch (Exception e) {
+
+            }
+
+        }
+    }
+
+}
+```
+
+### LockSupport实现
+LockSuport的park()方法表示阻塞当前线程，unpark(thread)表示唤醒线程
+
+```java
+public class PrintABCUsingLockSupport {
+    private static Thread threadB = null;
+    private static Thread threadC = null;
+    private static int times = 3;
+
+    // 需要一把锁
+    private static final Object lock = new Object();
+
+    public static void main(String[] args) {
+        Thread threadA = new Thread(() -> {
+            for (int i = 0; i < times; i ++) {
+                System.out.println("A");
+                // 唤醒B
+                LockSupport.unpark(threadB);
+                // 阻塞当前线程
+                LockSupport.park();
+            }
+        });
+
+        threadB = new Thread(() -> {
+            for (int i = 0; i < times; i ++) {
+                // 先阻塞等待被唤醒
+                LockSupport.park();
+                System.out.println("B");
+                LockSupport.unpark(threadC);
+            }
+        });
+
+        threadC = new Thread(() -> {
+            for (int i = 0; i < times; i ++) {
+                LockSupport.park();
+                System.out.println("C");
+                LockSupport.unpark(threadA);
+            }
+        });
+        threadA.start();
+        threadB.start();
+        threadC.start();
+    }
+}
+```
